@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+    Medvede
+</h:head>
+
+<h:body>
+
+    <ui:composition template="/template/template.xhtml">
+        <ui:define name="content">
+
+            <f:view>
+                <div class="container">
+                    <div class="content">
+                        <h:form>
+
+                            <h:commandButton class="btn" value="Načítaj medvede z DB"
+                                             actionListener="#{medvedAction.nacitajVsetkyMedvedeDoModelu()}"/>
+
+                            <h:commandButton class="btn" value="DB - vytvor maca a nacitaj medvede z DB"
+                                             actionListener="#{medvedAction.vytvorMedvedaANacitajVsetkyMedvedeDoModelu}"/>
+
+                            <p:dataTable rowKey="#{medved.meno}-#{medved.id}" var="medved"
+                                         value="#{medvedModel.medvede}"
+                                         paginator="false"
+                                         selection="#{medvedModel.oznacenyMedved}"
+                                         emptyMessage="Nie sú načítané žiadne medvede">
+                                <p:column selectionMode="single">
+
+                                </p:column>
+                                <p:column headerText="Id">
+                                    <h:outputText value="#{medved.id}"/>
+                                </p:column>
+
+                                <p:column headerText="Meno">
+                                    <h:outputText value="#{medved.meno}"/>
+                                </p:column>
+                            </p:dataTable>
+
+                            <div class="margin-top">
+                                <h:outputText value="Počet všetkých medveďov : #{medvedModel.medvede.size()}"
+                                              rendered="#{medvedModel.medvede.size() > 0}"/>
+                            </div>
+
+                            <h:commandButton class="btn" value="Zobraz detail vybraného medveďa"
+                                             action="detail"
+                                             rendered="#{medvedModel.oznacenyMedved != null}"/>
+
+
+                        </h:form>
+                    </div>
+                </div>
+            </f:view>
+
+        </ui:define>
+    </ui:composition>
+
+</h:body>
+</html>
